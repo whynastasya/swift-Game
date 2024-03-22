@@ -10,22 +10,31 @@ import UIKit
 final class GameViewController: UIViewController {
 
     private var questionNumberLabel = UILabel()
-    private var questionView = QuestionView(frame: .zero, questionText: questions[0].question)
-    private var answersTableView = AnswersTableView(frame: .zero, style: .plain, answers: questions[0].answers)
+    private var questionView = QuestionView(frame: .zero, questionText: "")
+    private var answersTableView = AnswersTableView(frame: .zero, style: .plain, answers: [Answer]())
     private var scoreLabel = UILabel()
     private var numberQuestion = 1
     private var hintButton = UIButton()
+    private var sequenceStrategy: CreateQuestionsSequenceStrategy {
+        switch Game.shared.questionsSequence {
+            case .direct:
+                return DirectQuestionsSequenceStrategy()
+            case .random:
+                return RandomQuestionsSequenceStrategy()
+        }
+    }
+    private var questions = [Question]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
+        questions = sequenceStrategy.createQuestionsSequence()
         setupQuestionNumberLabel()
         setupScoreLabel()
         setupHintButton()
         setupQuestionView()
         setupAnswersTableView()
         setupConstraints()
-        questions.shuffle()
         updateData()
         Game.shared.session?.gameDelegate = self
     }

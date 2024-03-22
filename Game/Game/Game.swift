@@ -10,6 +10,7 @@ import Foundation
 final class Game {
     static let shared = Game()
     var session: GameSession? = nil
+    var questionsSequence: QuestionSequence = .direct
     var records: [String: [Record]] {
         didSet {
             recordsCaretaker.save(records: self.records)
@@ -28,8 +29,6 @@ final class Game {
         } else {
             records[date] = [Game.shared.session?.record ?? Record()]
         }
-        print(Game.shared.session?.record)
-        print(records)
         session = nil
     }
     

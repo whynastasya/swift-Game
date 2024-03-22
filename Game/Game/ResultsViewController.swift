@@ -15,9 +15,17 @@ final  class ResultsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        setupNameLabel()
         setupResultsTableView()
         setupConstraints()
-        print(Game.shared.records)
+    }
+    
+    private func setupNameLabel() {
+        nameLabel.text = "История игр"
+        nameLabel.font = .systemFont(ofSize: 25, weight: .medium)
+        nameLabel.textColor = .gray
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameLabel)
     }
     
     private func setupResultsTableView() {
@@ -27,7 +35,10 @@ final  class ResultsViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            resultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            nameLabel.topAnchor.constraint(equalTo: view.topAnchor,constant: 25),
+            
+            resultsTableView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             resultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             resultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             resultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
